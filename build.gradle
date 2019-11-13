@@ -1,0 +1,68 @@
+plugins {
+  id 'eclipse'
+  id 'maven'
+  id 'java'
+  id 'org.springframework.boot' version '1.5.22.RELEASE'
+  
+  //versioner is totally optional, it computes your SemVer
+  //based on [major],[minor],[patch] tokens in your commit messages
+  id 'io.toolebox.git-versioner' version "1.3.0"
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	maven { url 'https://jitpack.io' }
+}
+
+
+dependencies {
+
+    //comment out any of these modules you do not want to include
+    //in your own project and add your dependencies below
+
+	compile 'com.github.inversion-api:inversion-engine:0.5.+'
+	compile 'com.github.inversion-api:inversion-starter-spring-boot:0.5+'
+	compile 'com.github.inversion-api:inversion-starter-dynamodb:0.5.+'
+	compile 'com.github.inversion-api:inversion-starter-elasticsearch:0.5.+'
+	compile 'com.github.inversion-api:inversion-starter-kinesis:0.5.+'
+	compile 'com.github.inversion-api:inversion-starter-redis:0.5.+'
+	compile 'com.github.inversion-api:inversion-starter-s3:0.5.+'
+	compile 'com.github.inversion-api:inversion-starter-script:0.5.+'
+	
+	testCompile 'junit:junit:4.12'
+}
+
+
+//if you remove the versioner plugin, you can remove this block
+versioner {
+  pattern {
+    pattern = "%M.%m.%p(.%c)"
+  }
+  startFrom {
+    major = 0
+    minor = 5
+    patch = 1
+  }  
+  tag {
+    prefix = ''
+  }
+}
+
+eclipse {
+   classpath {
+      file {
+         tasks.eclipse.dependsOn(cleanEclipseClasspath)
+         tasks.eclipse.dependsOn("create-dirs")
+      }
+   }
+}
+
+task "create-dirs" {
+   doLast {
+      sourceSets*.java.srcDirs*.each { it.mkdirs() }
+      sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+   }
+}
