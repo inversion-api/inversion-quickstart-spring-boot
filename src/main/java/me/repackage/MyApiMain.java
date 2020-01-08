@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,32 +35,31 @@ public class MyApiMain
     */
    public static Api buildApi()
    {
-      return new Api()
-            .withName("demo")
-            
-            //-- DATABASE CONFIGURATION OPTION #1.
-            //-- you can set your database connection information explicitly in the code here... 
-            .withDb(new SqlDb("myDb", 
-                              "${YOUR_JDBC_DRIVER}", 
-                              "${YOUR_JDBC_URL}", 
-                              "${YOUR_JDBC_USERNAME}", 
-                              "${YOUR_JDBC_PASSWORD}"))
-            
-            //-- DATABASE CONFIGURATION OPTION #2 & #3
-            //-- comment out the above  "withDb()" method and uncomment below
-            //.withDb(new SqlDb("myDb"))
-            
-            //-- then add the following name value pairs to one of the following
-            //--   - to an 'inversion.properties' file in the classpath
-            //--   - OR as java system properties
-            //--   - OR as environment variables
-            //-- 
-            //--  myDb.driver=${YOUR_JDBC_DRIVER}
-            //--  myDb.url=${YOUR_JDBC_URL}
-            //--  myDb.user=${YOUR_JDBC_USERNAME}
-            //--  myDb.pass=${YOUR_JDBC_PASSWORD
-            
-            .withEndpoint("GET,PUT,POST,DELETE", "/*", new RestAction());
+      return new Api().withName("demo")
+
+                      //-- DATABASE CONFIGURATION OPTION #1.
+                      //-- you can set your database connection information explicitly in the code here... 
+                      .withDb(new SqlDb("myDb", //
+                                        "${YOUR_JDBC_DRIVER}", //
+                                        "${YOUR_JDBC_URL}", //
+                                        "${YOUR_JDBC_USERNAME}", //
+                                        "${YOUR_JDBC_PASSWORD}"))
+
+                      //-- DATABASE CONFIGURATION OPTION #2 & #3
+                      //-- comment out the above  "withDb()" method and uncomment below
+                      //.withDb(new SqlDb("myDb"))
+
+                      //-- then add the following name value pairs to one of the following
+                      //--   - to an 'inversion.properties' file in the classpath
+                      //--   - OR as java system properties
+                      //--   - OR as environment variables
+                      //-- 
+                      //--  myDb.driver=${YOUR_JDBC_DRIVER}
+                      //--  myDb.url=${YOUR_JDBC_URL}
+                      //--  myDb.user=${YOUR_JDBC_USERNAME}
+                      //--  myDb.pass=${YOUR_JDBC_PASSWORD
+
+                      .withEndpoint("GET,PUT,POST,DELETE", "/*", new RestAction());
    }
 
    public static void main(String[] args) throws Exception

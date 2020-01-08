@@ -4,7 +4,6 @@ plugins {
   id "java-library"
   id "maven-publish"
   id 'org.springframework.boot' version '2.2.0.RELEASE'
-  id "net.researchgate.release" version "2.8.1"
 }
 
 
@@ -12,10 +11,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-
-	mavenCentral()
-	maven { url 'https://jitpack.io' }
-	maven { url 'https://dl.bintray.com/inversion/repo' }
+	jcenter()
 }
 
 dependencies {
@@ -31,19 +27,6 @@ dependencies {
     compile "io.inversion:inversion-redis:${inversionVersion}"
     compile "io.inversion:inversion-s3:${inversionVersion}"
     compile "io.inversion:inversion-script:${inversionVersion}"
-
-	//if you want to use SNAPSHOT builds in your project, you can pull 
-	//those directly from Github via Jitpack using the dependendencies below
-	//instead of the ones above.
-	//
-    //compile 'com.github.inversion-api.inversion-engine:inversion-spring-boot:master-SNAPSHOT'
-    //compile 'com.github.inversion-api.inversion-engine:inversion-demos:master-SNAPSHOT'
-    //compile 'com.github.inversion-api.inversion-engine:inversion-dynamodb:master-SNAPSHOT'
-    //compile 'com.github.inversion-api.inversion-engine:inversion-elasticsearch:master-SNAPSHOT'
-    //compile 'com.github.inversion-api.inversion-engine:inversion-kinesis:master-SNAPSHOT'
-    //compile 'com.github.inversion-api.inversion-engine:inversion-redis:master-SNAPSHOT'
-    //compile 'com.github.inversion-api.inversion-engine:inversion-s3:master-SNAPSHOT'
-    //compile 'com.github.inversion-api.inversion-engine:inversion-script:master-SNAPSHOT'
 
 	testCompile 'junit:junit:4.12'
 }
