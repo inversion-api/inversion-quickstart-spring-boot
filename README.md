@@ -1,6 +1,6 @@
 # Inversion Cloud API Engine - Spring Boot Quick Start Guide
 
-[![](https://jitpack.io/v/inversion-api/inversion-quickstart-spring-boot.svg)](https://jitpack.io/#inversion-api/inversion-quickstart-spring-boot)  [![](https://travis-ci.org/inversion-api/inversion-quickstart-spring-boot.svg?branch=master)](https://travis-ci.org/inversion-api/inversion-quickstart-spring-boot)
+[![](https://travis-ci.org/inversion-api/inversion-quickstart-spring-boot.svg?branch=master)](https://travis-ci.org/inversion-api/inversion-quickstart-spring-boot)
 
 Inversion is the fastest way to deliver full featured and secure REST APIs.
 
