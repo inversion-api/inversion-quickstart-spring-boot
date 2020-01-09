@@ -3,7 +3,7 @@ plugins {
   id 'eclipse'
   id "java-library"
   id "maven-publish"
-  id 'org.springframework.boot' version '2.2.0.RELEASE'
+  id "org.springframework.boot" version "2.2.2.RELEASE"
 }
 
 
@@ -12,21 +12,23 @@ targetCompatibility = 1.8
 
 repositories {
 	jcenter()
+	mavenCentral()
+	maven { url 'https://oss.jfrog.org/artifactory/oss-snapshot-local' }
 }
 
 dependencies {
 
     compile "io.inversion:inversion-spring-boot:${inversionVersion}"
-
-    //comment out any of these modules you do not want to include
+    
+    //comment in any of these modules you want to include
     //in your own project and add your dependencies below
-    compile "io.inversion:inversion-demos:${inversionVersion}"
-    compile "io.inversion:inversion-dynamodb:${inversionVersion}"
-    compile "io.inversion:inversion-elasticsearch:${inversionVersion}"
-    compile "io.inversion:inversion-kinesis:${inversionVersion}"
-    compile "io.inversion:inversion-redis:${inversionVersion}"
-    compile "io.inversion:inversion-s3:${inversionVersion}"
-    compile "io.inversion:inversion-script:${inversionVersion}"
+    //
+    //compile "io.inversion:inversion-dynamodb:${inversionVersion}"
+    //compile "io.inversion:inversion-elasticsearch:${inversionVersion}"
+    //compile "io.inversion:inversion-kinesis:${inversionVersion}"
+    //compile "io.inversion:inversion-redis:${inversionVersion}"
+    //compile "io.inversion:inversion-s3:${inversionVersion}"
+    //compile "io.inversion:inversion-script:${inversionVersion}"
 
 	testCompile 'junit:junit:4.12'
 }
