@@ -1,0 +1,17 @@
+
+
+.*
+!.env
+
+
+bin
+build
+gradle
+
+Dockerfile
+gradlew
+gradle.bat
+LICENSE
+README.md
+
+

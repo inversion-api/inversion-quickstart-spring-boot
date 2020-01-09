@@ -1,18 +1,12 @@
 FROM gradle:6.0.1-jdk8 AS build
-COPY --chown=gradle:gradle . /home/gradle/src
-WORKDIR /home/gradle/src
-RUN gradle build --no-daemon 
+COPY --chown=gradle:gradle . /build/inversion-app
 
-RUN rm /home/gradle/src/build/libs/src*
-RUN ls -la /home/gradle/src/build/libs/*
+WORKDIR /build/inversion-app
+RUN gradle build --no-daemon --console verbose
 
 FROM openjdk:8-alpine
 EXPOSE 8080
 
-RUN mkdir /app
-
-COPY --from=build /home/gradle/src/build/libs/*.jar /app/inversion-app.jar
-COPY --from=build /home/gradle/src/dist/files/*.* /app/
-COPY --from=build /home/gradle/src/.env /.env
+COPY --from=build /build/inversion-app/build/libs/inversion-app.jar /build/inversion-app/.env* /app/
 
 ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/inversion-app.jar"]
