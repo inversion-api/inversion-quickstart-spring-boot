@@ -25,4 +25,4 @@ and you don't need to modify the Dockerfile or build.gradle.
 Finally, we would love your feedback, bug reports, and best of all PRs!
 
 Thanks & enjoy!
-<br/>The Inversion team @ Rocket Partners 
+<br/>The Inversion team @ [Rocket Partners](http://rocketpartners.io)
