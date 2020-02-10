@@ -18,10 +18,11 @@ import io.inversion.cloud.service.Engine;
 @Configuration
 public class NorthwindApi
 {
-   @Bean
+
    /**
     * Constructs a REST API that exposes database tables and REST collections. 
     */
+   @Bean
    public static Api buildApi()
    {
       return new Api().withName("northwind")
