@@ -1,19 +1,33 @@
-package me.repackage;
+/*
+ * Copyright (c) 2015-2020 Rocket Partners, LLC
+ * https://github.com/inversion-api
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package me.repackage.wiredBySpring;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import io.inversion.cloud.action.misc.MockAction;
-import io.inversion.cloud.action.rest.RestAction;
-import io.inversion.cloud.action.sql.SqlDb;
-import io.inversion.cloud.model.Action;
-import io.inversion.cloud.model.Api;
-import io.inversion.cloud.model.Endpoint;
-import io.inversion.cloud.model.JSNode;
-import io.inversion.cloud.model.Request;
-import io.inversion.cloud.model.Response;
-import io.inversion.cloud.service.Chain;
-import io.inversion.cloud.service.Engine;
+import io.inversion.Action;
+import io.inversion.Api;
+import io.inversion.Endpoint;
+import io.inversion.Request;
+import io.inversion.Response;
+import io.inversion.action.db.DbAction;
+import io.inversion.action.misc.MockAction;
+import io.inversion.jdbc.JdbcDb;
+import io.inversion.utils.JSNode;
 
 @Configuration
 public class NorthwindApi
@@ -42,18 +56,18 @@ public class NorthwindApi
 
                       //-- DATABASE CONFIGURATION OPTION #1.
                       //-- you can set your database connection information explicitly in the code here... 
-                      .withDb(new SqlDb(
-                                        //-- this is the 'name' you give your db connection. It is used to optionally set 
-                                        //-- db configuration via prop key/value in methods 2 & 3 below
-                                        "myDb", //
-                                        "org.h2.Driver", //-- replace with your jdbc driver class
-                                        "jdbc:h2:mem:northwind;DB_CLOSE_DELAY=-1", //-- replace with your jdbc connection string
-                                        "sa", //-- replace with your db username
-                                        "", //-- replace with your db password
-                                        //-- This last arg is an optional ddl file that is run each time the  
-                                        //-- engine starts.  Here it bootstraps the full db for demo purposes.
-                                        //-- You can supply our own ddl file or simply remove this arg
-                                        SqlDb.class.getResource("northwind-h2.ddl").toString()))
+                      .withDb(new JdbcDb(
+                                         //-- this is the 'name' you give your db connection. It is used to optionally set 
+                                         //-- db configuration via prop key/value in methods 2 & 3 below
+                                         "myDb", //
+                                         "org.h2.Driver", //-- replace with your jdbc driver class
+                                         "jdbc:h2:mem:northwind;DB_CLOSE_DELAY=-1", //-- replace with your jdbc connection string
+                                         "sa", //-- replace with your db username
+                                         "", //-- replace with your db password
+                                         //-- This last arg is an optional ddl file that is run each time the  
+                                         //-- engine starts.  Here it bootstraps the full db for demo purposes.
+                                         //-- You can supply our own ddl file or simply remove this arg
+                                         JdbcDb.class.getResource("northwind-h2.ddl").toString()))
 
                       //-- DATABASE CONFIGURATION OPTION #2 & #3
                       //-- comment out the above  "withDb()" method and uncomment below
@@ -69,19 +83,19 @@ public class NorthwindApi
                       //--  myDb.user=${YOUR_JDBC_USERNAME}
                       //--  myDb.pass=${YOUR_JDBC_PASSWORD
 
-                      .withEndpoint(new Endpoint("GET,PUT,POST,DELETE", "/*", new RestAction()).withExcludePaths("mock1/*,custom1/*"))//
+                      .withEndpoint(new Endpoint("GET,PUT,POST,DELETE", "/*", new DbAction()).withExcludeOn("*", "mock1/*,custom1/*"))//
                       .withEndpoint("GET", "mock1/*", new MockAction().withJson(new JSNode("hello_world", "from northwind api")))//
                       .withEndpoint("GET", "custom1/*", new Action()
                          {
                             @Override
-                            public void doGet(Engine engine, Api api, Endpoint endpoint, Chain chain, Request req, Response res) throws Exception
+                            public void doGet(Request req, Response res)
                             {
                                res.data().add("action 1 value");
                             }
                          }, new Action()
                             {
                                @Override
-                               public void doGet(Engine engine, Api api, Endpoint endpoint, Chain chain, Request req, Response res) throws Exception
+                               public void doGet(Request req, Response res)
                                {
                                   res.data().add("action 2 value");
                                }

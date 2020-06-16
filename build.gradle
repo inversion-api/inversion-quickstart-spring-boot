@@ -18,17 +18,34 @@ repositories {
 
 dependencies {
 
+	//-- use these dependencies to pull the inversion build assets from Maven
+    compile "io.inversion:inversion-api:${inversionVersion}"
+    compile "io.inversion:inversion-jdbc:${inversionVersion}"
     compile "io.inversion:inversion-spring-boot:${inversionVersion}"
     
-    //comment in any of these modules you want to include
-    //in your own project and add your dependencies below
-    //
-    //compile "io.inversion:inversion-dynamodb:${inversionVersion}"
-    //compile "io.inversion:inversion-elasticsearch:${inversionVersion}"
-    //compile "io.inversion:inversion-kinesis:${inversionVersion}"
-    //compile "io.inversion:inversion-redis:${inversionVersion}"
-    //compile "io.inversion:inversion-s3:${inversionVersion}"
-    //compile "io.inversion:inversion-script:${inversionVersion}"
+	//-- If you want to checkout the inversion-engine project to do simultaneous 
+	//-- development on any of the core sub-projcts and your own project, you 
+	//-- can use gradle sub project dependencies instead of the maven dependencies above.
+	//-- To use these dependencies, you will also have to set the project relative 
+	//-- path references in settings.gradle 
+	 
+	//compile project(':inversion-api')
+	//compile project(':inversion-jdbc')
+	//compile project(':inversion-spring-boot')
 
-	testCompile 'junit:junit:4.12'
 }
+
+//-- if you have more than one class with a main(String[] args)
+//-- method in it, then you need to tell Spring Boot  which 
+//-- one to run
+ 
+springBoot {
+	mainClassName = 'io.inversion.spring.InversionMain'
+}
+
+//-- customize this task if you want to run different apis via 'gradle bootRun'
+//bootRun {
+//	main = 'io.inversion.spring.InversionMain'
+//	main = 'me.repackage.wiredBySpring.WiredBySpringMain'
+//	main = 'me.repackage.wiredByInversion.WiredByInversionMain'
+//}

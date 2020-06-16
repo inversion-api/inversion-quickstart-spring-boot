@@ -14,27 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.repackage;
+package me.repackage.wiredBySpring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-import io.inversion.cloud.service.spring.config.EnableInversion;
+import io.inversion.spring.EnableInversion;
 
 /**
- * Quick start example to wire up and run a REST API  
- * that exposes relational db tables as REST collections.
+ * Quick start template/demo to wire up and run a REST API via Spring Boot wiring / dependency injection.
  * 
- * See https://github.com/inversion-api/inversion-engine for full configuration options.
- *      
+ * @see io.inversion.utils.Config
+ * @see io.inversion.utils.Configurator
  */
-
-@SpringBootApplication
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableInversion
-public class ApiMain
+public class WiredBySpringMain
 {
    public static void main(String[] args)
    {
-      SpringApplication.run(ApiMain.class, args);
+      System.setProperty("inversion.configPath",  "config/wiredBySpring");
+      SpringApplication.run(WiredBySpringMain.class, args);
    }
 }
