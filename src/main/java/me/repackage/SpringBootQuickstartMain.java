@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.repackage.wiredBySpring;
+package me.repackage;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 import io.inversion.spring.EnableInversion;
+import io.inversion.utils.Config;
 
 /**
  * Quick start template/demo to wire up and run a REST API via Spring Boot wiring / dependency injection.
@@ -30,11 +31,15 @@ import io.inversion.spring.EnableInversion;
  */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableInversion
-public class WiredBySpringMain
+public class SpringBootQuickstartMain
 {
    public static void main(String[] args)
    {
-      System.setProperty("inversion.configPath",  "config/wiredBySpring");
-      SpringApplication.run(WiredBySpringMain.class, args);
+      System.out.println("  - db.class  = " + Config.getString("db.class"));
+      System.out.println("  - db.driver = " + Config.getString("db.driver"));
+      System.out.println("  - db.url    = " + Config.getString("db.url"));
+      System.out.println("  - db.user   = " + Config.getString("db.user"));
+
+      SpringApplication.run(SpringBootQuickstartMain.class, args);
    }
 }

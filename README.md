@@ -15,8 +15,8 @@ See https://github.com/inversion-api/inversion-engine for full documentation.
 - Edit Spring Boot properties in 'src/main/resources/application.properties' as needed.
 - Edit logging settings in 'src/main/resources/logback.xml' as needed.
 - To build and run via the Docker two stage build, run:
-   - "docker build . -t quickstart"
-   - "docker run -p 8080:8080 quickstart"
+   - "docker build . -t inversion-quickstart-spring-boot"
+   - "docker run -p 8080:8080 inversion-quickstart-spring-boot"
            
 As long as you only have one class with a main() in it, the Spring Boot gradle plugin will detect it and use that as 
 your jar main class.  That means you can rename and repackage MySpringBootApiMain.java into whatever you would like
@@ -25,3 +25,10 @@ and you don't need to modify the Dockerfile or build.gradle.
 Finally, we would love your feedback, bug reports, and best of all PRs!
 
 Thanks & enjoy, from the Inversion team @ [Rocket Partners](http://rocketpartners.io)
+
+
+gradle build
+java -Ddb.class=io.inversion.jdbc.JdbcDb -Ddb.url=jdbc\:h2\:mem\:northwind\;DB_CLOSE_DELAY\=\-1 -Ddb.user=sa -Ddb.pass= -Ddb.ddlUrls=io\/inversion\/jdbc\/northwind\-h2.ddl -jar build/libs/inversion-quickstart-spring-boot.jar
+
+
+docker run -p 8080:8080 -e db.class=io.inversion.jdbc.JdbcDb -e db.url=jdbc\:h2\:mem\:northwind\;DB_CLOSE_DELAY\=\-1 -e db.user=sa -e db.pass= -e db.ddlUrls=io\/inversion\/jdbc\/northwind\-h2.ddl inversion-quickstart-spring-boot
