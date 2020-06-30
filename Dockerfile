@@ -2,7 +2,7 @@ FROM gradle:6.0.1-jdk8 AS build
 COPY --chown=gradle:gradle . /build/inversion-spring-boot-main/
 
 WORKDIR /build/inversion-spring-boot-main
-RUN gradle build --no-daemon --console verbose
+RUN gradle build --refresh-dependencies --no-daemon --console verbose
 
 FROM openjdk:8-alpine
 EXPOSE 8080

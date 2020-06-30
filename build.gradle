@@ -42,9 +42,9 @@ dependencies {
 
     //-- use these dependencies to pull the inversion build assets from Maven
     //-- make sure to set ${inversionVersion} to your desired version in gradle.properties
-    //compile "io.inversion:inversion-api:${inversionVersion}"
-    //compile "io.inversion:inversion-jdbc:${inversionVersion}"
-    //compile "io.inversion:inversion-spring-boot:${inversionVersion}"
+    compile "io.inversion:inversion-api:${inversionVersion}"
+    compile "io.inversion:inversion-jdbc:${inversionVersion}"
+    compile "io.inversion:inversion-spring-boot:${inversionVersion}"
 
     //-- use these dependencies to always grab the lastest master branch
     //-- straight out of github and built by jitpack
@@ -58,9 +58,9 @@ dependencies {
     //-- To use these dependencies, you will also have to set the project relative
     //-- path references in settings.gradle
     //-- IMPORTANT the supplied Dockerfile will not work with these local dependencies
-    compile project(':inversion-api')
-    compile project(':inversion-jdbc')
-    compile project(':inversion-spring-boot')
+    //compile project(':inversion-api')
+    //compile project(':inversion-jdbc')
+    //compile project(':inversion-spring-boot')
 
 }
 
@@ -78,3 +78,21 @@ dependencies {
 //	main = 'me.repackage.wiredBySpring.WiredBySpringMain'
 //	main = 'me.repackage.wiredByInversion.WiredByInversionMain'
 //}
+
+task run(type:JavaExec) {
+    main = "me.repackage.SpringBootQuickstartMain"
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperties System.getProperties()
+}
+
+
+task demo(type:JavaExec) {
+    main = "me.repackage.SpringBootQuickstartMain"
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperties System.getProperties()
+    systemProperty 'db.class', System.getProperty('db.class', 'io.inversion.jdbc.JdbcDb')
+    systemProperty 'db.url', System.getProperty('db.url', 'jdbc:h2:mem:northwind;DB_CLOSE_DELAY=-1')
+    systemProperty 'db.user', System.getProperty('db.user', 'sa')
+    systemProperty 'db.pass', System.getProperty('db.pass', '')
+    systemProperty 'db.ddlUrls', System.getProperty('db.ddlUrls', 'io/inversion/jdbc/northwind-h2.ddl')
+}
