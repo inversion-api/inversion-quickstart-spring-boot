@@ -42,42 +42,33 @@ dependencies {
 
     //-- use these dependencies to pull the inversion build assets from Maven
     //-- make sure to set ${inversionVersion} to your desired version in gradle.properties
+    //--
+    //-- If you want to checkout the inversion-engine core project to do simultaneous
+    //-- development on any of the core sub-projects and your own project, you
+    //-- can use local project dependencies instead of maven dependencies.
+    //-- To have a local project override your maven dependencies simply
+    //-- uncomment the line "includeBuild '../inversion-engine'" in the supplied
+    //-- settings.gradle file and gradle will use the local project.
+    //-- IMPORTANT the supplied Dockerfile will not work with these local project dependencies
+    //-- so make sure "includeBuild '../inversion-engine'" is commented OUT when using Docker.
     compile "io.inversion:inversion-api:${inversionVersion}"
     compile "io.inversion:inversion-jdbc:${inversionVersion}"
     compile "io.inversion:inversion-spring-boot:${inversionVersion}"
 
-    //-- use these dependencies to always grab the lastest master branch
-    //-- straight out of github and built by jitpack
+    //-- Alternatively, you can use jitpack to import dependencies directly from github.
+    //-- You can use these dependencies instead of the above dependencies to stay on the cutting edge.
     //compile 'com.github.inversion-api.inversion-engine:inversion-api:master-SNAPSHOT'
     //compile 'com.github.inversion-api.inversion-engine:inversion-jdbc:master-SNAPSHOT'
     //compile 'com.github.inversion-api.inversion-engine:inversion-spring-boot:master-SNAPSHOT'
 
-    //-- If you want to checkout the inversion-engine project to do simultaneous
-    //-- development on any of the core sub-projcts and your own project, you
-    //-- can use gradle sub project dependencies instead of the maven dependencies above.
-    //-- To use these dependencies, you will also have to set the project relative
-    //-- path references in settings.gradle
-    //-- IMPORTANT the supplied Dockerfile will not work with these local dependencies
-    //compile project(':inversion-api')
-    //compile project(':inversion-jdbc')
-    //compile project(':inversion-spring-boot')
-
 }
 
-//-- if you have more than one class with a main(String[] args)
-//-- method in it, then you need to tell Spring Boot  which
-//-- one to run
-
+//-- If your project has more than one class with a main(String[] args)
+//-- method in it, then you need to tell Spring Boot which one to run
 //springBoot {
 //	mainClassName = 'me.repackage.SpringBootQuickstartMain'
 //}
 
-//-- customize this task if you want to run different apis via 'gradle bootRun'
-//bootRun {
-//	main = 'io.inversion.spring.InversionMain'
-//	main = 'me.repackage.wiredBySpring.WiredBySpringMain'
-//	main = 'me.repackage.wiredByInversion.WiredByInversionMain'
-//}
 
 task run(type:JavaExec) {
     main = "me.repackage.SpringBootQuickstartMain"

@@ -1,10 +1,8 @@
 
-//-- uncomment the following lines (and change dependency refs in build.gradle) if you want
-//-- to include the core inversion subprojects as local projects instead of maven dependencies 
+//-- Uncomment the following line if you want to include the core
+//-- inversion subprojects as local projects instead of maven dependencies
+//--
+//-- IMPORTANT the supplied Dockerfile will not work with these local proejct dependencies
+//-- so make sure "includeBuild '../inversion-engine'" is commented OUT when using Docker.
 
-//include ':inversion-api'
-//include ':inversion-jdbc'
-//include ':inversion-spring-boot'
-//project(':inversion-api').projectDir = new File(settingsDir, '../inversion-engine/inversion-api/')
-//project(':inversion-jdbc').projectDir = new File(settingsDir, '../inversion-engine/inversion-jdbc/'
-//project(':inversion-spring-boot').projectDir = new File(settingsDir, '../inversion-engine/inversion-spring-boot/')
+includeBuild '../inversion-engine'

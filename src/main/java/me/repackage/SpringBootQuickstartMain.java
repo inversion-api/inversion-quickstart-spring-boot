@@ -25,11 +25,15 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 /**
  * Launches an Inversion Spring Boot app via <code>SpringApplication#run(SpringBootQuickstartMain.class,args)</code>.
  * <p>
- * You can launch a fully running demo api with running the following gradle OR docker commands:
+ * You can launch a fully running demo api by running the following gradle OR docker commands:
  * <b>Gradle:</b>
  * <pre>
- * gradle build
+ * ./gradlew build
  * java -Ddb.class=io.inversion.jdbc.JdbcDb -Ddb.url=jdbc\:h2\:mem\:northwind\;DB_CLOSE_DELAY\=\-1 -Ddb.user=sa -Ddb.pass= -Ddb.ddlUrls=io\/inversion\/jdbc\/northwind\-h2.ddl -jar build/libs/inversion-quickstart-spring-boot.jar
+ * </pre>
+ * A super easy shortcut gradle task 'demo' has been provided so you can also simply run
+ * <pre>
+ * ./gradlew demo
  * </pre>
  * <b>Docker:</b>
  * <pre>
@@ -39,17 +43,23 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * <p>
  * After launching your api, take it for a spin by browsing to one of the following urls:
  * <ul>
- *  <li>http://localhost:8080/northwind/categories
- *  <li>http://localhost:8080/northwind/orders
- *  <li>http://localhost:8080/northwind/orderdetails
- *  <li>http://localhost:8080/northwind/products
- *  <li>http://localhost:8080/northwind/mock1
- *  <li>http://localhost:8080/northwind/custom1
+ *  <li>http://localhost:8080/categories
+ *  <li>http://localhost:8080/orders
+ *  <li>http://localhost:8080/orderdetails
+ *  <li>http://localhost:8080/products
  * <p>
  * If the code in this packages is unmodified, users must supply configuration for at least one <code>Db</code>
  * which can be anywhere <code>Config</code> can find it.  In this mode, Inversion will be doing all of the
  * component wiring and dependency injection based on the bean name.property pairs it finds in the Config.
  * This is called "full wiring mode."
+ * <p>
+ * Please check the docs on <code>Config</code> for more info but there are four simple ways to supply this config:
+ * <ol>
+ *     <li>as Java system properties as seen in the above examples</li>
+ *     <li>ad environment variables</li>
+ *     <li>in "inversion.properties" files located in src/main/resources/ folder</li>
+ *     <li>in an ".env" file in the working directory.  See the supplied env.EXAMPLE for more info.
+ * </ol>
  * <p>
  * Alternatively, if you prefer to write code to configure your api and have Spring do all of the DI, all you have
  * to do is supply factory methods for your components in an <code>@Configuration</code> annotated class.
