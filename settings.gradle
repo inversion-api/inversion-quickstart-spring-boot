@@ -5,4 +5,4 @@
 //-- IMPORTANT the supplied Dockerfile will not work with these local proejct dependencies
 //-- so make sure "includeBuild '../inversion-engine'" is commented OUT when using Docker.
 
-includeBuild '../inversion-engine'
+//includeBuild '../inversion-engine'
