@@ -65,13 +65,16 @@ that connects to your data.
 The demo API is now running at 'http://localhost:8080/ with REST collection endpoints for each DB table.
 
 You can get started by exploring some of these urls:
- - GET http://localhost:8080/products
- - GET http://localhost:8080/orders?expands=orderDetails&page=2
- - GET http://localhost:8080/customers?in(country,France,Spain)&sort=-customerid&pageSize=10
- - GET http://localhost:8080/customers?orders.shipCity=Mannheim
+ - GET http://localhost:8080/northwind/products
+ - GET http://localhost:8080/northwind/orders?expands=orderDetails&page=2
+ - GET http://localhost:8080/northwind/customers?in(country,France,Spain)&sort=-customerid&pageSize=10
+ - GET http://localhost:8080/northwind/customers?orders.shipCity=Mannheim
+ - GET http://localhost:8080/status
+ - GET http://localhost:8080/simple
+ - GET http://localhost:8080/custom
 
 Append '&explain=true' to any query string to see an explanation of what is happening under the covers
- - GET http://localhost:8080/employees?title='Sales%20Representative'&sort=employeeid&pageSize=2&page=2&explain=true
+ - GET http://localhost:8080/northwind/employees?title='Sales%20Representative'&sort=employeeid&pageSize=2&page=2&explain=true
 
 Checkout the [RQL Guide](https://github.com/inversion-api/inversion-engine#resource-query-language-rql) to see all of the 
 advanced querying, filtering, and pagination options built into Inversion.
@@ -81,34 +84,35 @@ advanced querying, filtering, and pagination options built into Inversion.
 
 ## Connecting to your own Database
 
-You can test drive an Api connected to yoru own dabase by swapping out the values of "db.url", "db.user", "db.pass"
-in the above examples.  Inversion ship H2, MySql, Postgress, and MsSQLServer drivers.  If you want to connect
+You can test drive an Api connected to your own database by swapping out the values of "db.url", "db.user", "db.pass"
+in the above examples.  Inversion ship H2, MySql, Postgres, and MsSQLServer drivers.  If you want to connect
 do a different JDBC compatible db, you will need to add the driver as a Gradle dependency and specify the classname
 in a "db.driver" property.
+
+## Wiring up an Api with Spring Boot
+
+Some Java/Spring Boot developers may prefer to wire up their Apis using native Spring's DI instead of using properties
+based configuration.  The project includes a few examples in SpringConfiguration.java.
+
+Even when using Spring Boot to wire up your app, Inversion will still attempt to autowire "beanName.property=value" properties that are
+found anywhere in the Spring Boot context OR anywhere in the Inversion context . This lets you use 
+Spring Boot DI as much or as little as you like and also use Inversion's simple property runtime DI simultaneously. 
+Inversion's wiring takes place AFTER Spring Boot wiring has completed.
+
+See the next section "Configuring your Api" for more on Inversion's properties based DI.
 
 ## Configuring your Api
 
 In addition to supplying configuration options as system props or environment variables as we saw above, Inversion supports
 wiring up an Api based on simple "beanName.property=value" properties file syntax.  
 
-This project comes with a place holder "/src/main/resources/inversion.properties" config file.  You can place
-our "db.property=value" configuration in this file along with any other Inversion features you would like to wire
+This project comes with a placeholder "/src/main/resources/inversion.properties" config file.  You can place
+your "db.property=value" configuration in this file along with any other Inversion features you would like to wire
 into your api.   
 
 See the [Config](https://inversion-api.github.io/inversion-engine/javadoc/io/inversion/utils/Config.html) 
 and [Configurator](https://inversion-api.github.io/inversion-engine/javadoc/io/inversion/utils/Configurator.html) JavaDoc 
 for more details on how to where and how Inversion loads its configs.
-
-
-## Coding an Api with Spring Boot
-
-Some Java/Spring Boot developers may prefer to wire up their Apis in code instead of through configuration.  The project
-includes a few examples in OptionalSpringConfig.java.  
-
-When the Configurator detects that Apis have been "manually" wired
-up in Spring, it will not instantiate "bean.class=className" beans defined in the configuration but it will still 
-attempt to reflectively set beanName.property=value values.  This lets you use Spring Boot DI as much or as little as you 
-like and also use Inversion's simple property runtime DI simultaneously.    
 
 
 ## Using this Project as a Template
@@ -117,14 +121,14 @@ The Gradle build and dockerfile included with this project are designed to make 
 [GitHub template](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-template-repository).
 
 If you are going to build your Api with configuration not code, you can use everything almost exactly as it is.  Just
-add your config one or more "inversion.properties" files and modify any Spring Boot settings in "application.properties" 
-if necessary.
+add your "beanName.property=value" config to the Spring Boot application.properties file or to any of the places/files
+Inversion looks for configuration.  There should be no difference between adding your config to a Spring Boot context
+configuration file or an Inversion native properties file.
 
-If you want to wire up your Api in Java/Spring Boot, you will want to take a look at OptionalSpringConfig.java as
-an example and probably rename/repackage both OptionalSpringConfig.java and SpringBootQuickstartMain.java to fit
-your needs.
+If you want to wire up your Api in Java/Spring Boot, you will want to take a look at SpringConfiguration.java as
+an example and probably repackage both SpringConfiguration.java and Main.java to fit your needs.
 
-Finally, check out the comments in the build.gradle to see all of the different ways you can include the Inversion
+Finally, check out the comments in the build.gradle to see the different ways you can include the Inversion
 project dependencies in your own project.  
            
 

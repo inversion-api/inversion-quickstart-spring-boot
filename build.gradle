@@ -1,45 +1,14 @@
 plugins {
-    id "org.springframework.boot" version "2.2.2.RELEASE"
+    id "org.springframework.boot" version "2.5.2"
 }
 
-allprojects
-        {
-            apply plugin: 'java-library'
-
-            sourceCompatibility = 1.8
-            targetCompatibility = 1.8
-
-            repositories {
-                jcenter()
-                mavenCentral()
-                maven { url 'https://oss.jfrog.org/artifactory/oss-snapshot-local' }
-                maven { url 'https://jitpack.io' }
-            }
-        }
-
-
-subprojects
-        {
-            dependencies {
-                testCompile 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
-            }
-
-            task sourcesJar(type: Jar) {
-                from sourceSets.main.allJava
-                archiveClassifier = 'sources'
-            }
-
-            javadoc.failOnError = false
-            task javadocJar(type: Jar) {
-                from javadoc
-                archiveClassifier = 'javadoc'
-            }
-        }
+apply plugin: 'java-library'
+repositories {
+    mavenCentral()
+}
 
 
 dependencies {
-
-
     //-- use these dependencies to pull the inversion build assets from Maven
     //-- make sure to set ${inversionVersion} to your desired version in gradle.properties
     //--
@@ -51,34 +20,31 @@ dependencies {
     //-- settings.gradle file and gradle will use the local project.
     //-- IMPORTANT the supplied Dockerfile will not work with these local project dependencies
     //-- so make sure "includeBuild '../inversion-engine'" is commented OUT when using Docker.
-    compile "io.inversion:inversion-api:${inversionVersion}"
-    compile "io.inversion:inversion-jdbc:${inversionVersion}"
-    compile "io.inversion:inversion-spring-boot:${inversionVersion}"
+    implementation "io.inversion:inversion-api:${inversionVersion}"
+    implementation "io.inversion:inversion-jdbc:${inversionVersion}"
+    implementation "io.inversion:inversion-spring-boot:${inversionVersion}"
+    //implementation "io.inversion:inversion-openapi:${inversionVersion}"
 
-    //-- Alternatively, you can use jitpack to import dependencies directly from github.
-    //-- You can use these dependencies instead of the above dependencies to stay on the cutting edge.
-    //compile 'com.github.inversion-api.inversion-engine:inversion-api:master-SNAPSHOT'
-    //compile 'com.github.inversion-api.inversion-engine:inversion-jdbc:master-SNAPSHOT'
-    //compile 'com.github.inversion-api.inversion-engine:inversion-spring-boot:master-SNAPSHOT'
-
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 }
 
 //-- If your project has more than one class with a main(String[] args)
 //-- method in it, then you need to tell Spring Boot which one to run
 //springBoot {
-//	mainClassName = 'me.repackage.SpringBootQuickstartMain'
+//	mainClassName = 'me.repackage.Main'
 //}
 
 
+
 task run(type:JavaExec) {
-    main = "me.repackage.SpringBootQuickstartMain"
+    main = "me.repackage.Main"
     classpath = sourceSets.main.runtimeClasspath
     systemProperties System.getProperties()
 }
 
 
 task demo(type:JavaExec) {
-    main = "me.repackage.SpringBootQuickstartMain"
+    main = "me.repackage.Main"
     classpath = sourceSets.main.runtimeClasspath
     systemProperties System.getProperties()
     systemProperty 'db.class', System.getProperty('db.class', 'io.inversion.jdbc.JdbcDb')
@@ -87,3 +53,4 @@ task demo(type:JavaExec) {
     systemProperty 'db.pass', System.getProperty('db.pass', '')
     systemProperty 'db.ddlUrls', System.getProperty('db.ddlUrls', 'io/inversion/jdbc/northwind-h2.ddl')
 }
+

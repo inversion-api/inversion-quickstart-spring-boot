@@ -1,4 +1,4 @@
-FROM gradle:6.0.1-jdk8 AS build
+FROM gradle:7.1.1-jdk8 AS build
 COPY --chown=gradle:gradle . /build/inversion-spring-boot-main/
 
 WORKDIR /build/inversion-spring-boot-main

@@ -16,11 +16,18 @@
  */
 package me.repackage;
 
-import io.inversion.spring.EnableInversion;
-import io.inversion.utils.Config;
+import io.inversion.Api;
+import io.inversion.action.misc.MockAction;
+import io.inversion.spring.config.EnableInversion;
+import io.inversion.spring.config.InversionRegistrar;
+import io.inversion.spring.main.InversionMain;
+import io.inversion.utils.JSNode;
+import io.inversion.utils.Utils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 
 /**
  * Launches an Inversion Spring Boot app via <code>SpringApplication#run(SpringBootQuickstartMain.class,args)</code>.
@@ -43,10 +50,10 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * <p>
  * After launching your api, take it for a spin by browsing to one of the following urls:
  * <ul>
- *  <li>http://localhost:8080/categories
- *  <li>http://localhost:8080/orders
- *  <li>http://localhost:8080/orderdetails
- *  <li>http://localhost:8080/products
+ *  <li>http://localhost:8080/northwind/categories
+ *  <li>http://localhost:8080/northwind/orders
+ *  <li>http://localhost:8080/northwind/orderdetails
+ *  <li>http://localhost:8080/northwind/products
  * <p>
  * If the code in this packages is unmodified, users must supply configuration for at least one <code>Db</code>
  * which can be anywhere <code>Config</code> can find it.  In this mode, Inversion will be doing all of the
@@ -68,29 +75,74 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * runs in "dependency injection mode".  Inversion will not fully wire up your api (you have made that Spring's job)
  * but it will still set bean name.property pair values it finds any in the Config.
  *
- * @see OptionalSpringConfig
+ * @see SpringConfiguration
  * @see io.inversion.utils.Config
  * @see io.inversion.utils.Configurator
  */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableInversion
-public class SpringBootQuickstartMain {
+public class Main {
+
+    protected static ApplicationContext context = null;
 
     public static void main(String[] args) {
-
-        String pass = Config.getString("db.pass");
-        if (pass == null)
-            pass = "UNDEFINED";
-
-        if (pass != null)
-            pass = pass.replaceAll(".", "*");
-
-        System.out.println("  - db.class  = " + Config.getString("db.class"));
-        System.out.println("  - db.driver = " + Config.getString("db.driver"));
-        System.out.println("  - db.url    = " + Config.getString("db.url"));
-        System.out.println("  - db.user   = " + Config.getString("db.user"));
-        System.out.println("  - db.pass   = " + pass);
-
-        SpringApplication.run(SpringBootQuickstartMain.class, args);
+        run(args, null);
     }
+
+    /**
+     * Convenience method for launching a Engine with Api beans that were
+     * configured outside of Spring Boot DI.
+     *
+     * @param apis the Apis to run
+     * @return the SpringBoot ApplicationContext for the running server
+     */
+    public static ApplicationContext run(Api... apis) {
+        return run(new String[]{}, apis);
+    }
+
+    public static ApplicationContext run(String[] args, Api[] apis) {
+        try {
+
+            if (context != null)
+                exit();
+
+            InversionRegistrar.apis = apis;
+            context = SpringApplication.run(Main.class, args);
+        } catch (Throwable e) {
+            e = Utils.getCause(e);
+            if (Utils.getStackTraceString(e).contains("A child container failed during start")) {
+                String msg;
+                msg = " README FOR HELP!!!!!!!";
+                msg += "\n";
+                msg += "\n It looks like you are getting a frustrating Tomcat startup error.";
+                msg += "\n";
+                msg += "\n This error may be casused if URL.setURLStreamHandlerFactory()";
+                msg += "\n is somehow called before Spring Boot starts Tomcat. ";
+                msg += "\n";
+                msg += "\n This seems to be a frustrating undocumented \"no no\" of Tomcat with ";
+                msg += "\n Spring Boot. Using H2 db before Spring Boot starts Tomcat seems to ";
+                msg += "\n be one known cause of this error.";
+                msg += "\n";
+                msg += "\n SOLUTION: Override Engine.startup0() and place all of your Api wiring";
+                msg += "\n and other setup code there.  That way Tomcat will load before ";
+                msg += "\n the part of your code that is causing this unintended side effect.";
+                msg += "\n\n\n";
+
+                System.err.println(msg);
+                throw new RuntimeException(msg, e);
+            } else {
+                e.printStackTrace();
+            }
+            Utils.rethrow(e);
+        }
+
+        return context;
+    }
+
+    public static void exit() {
+        if (context != null)
+            SpringApplication.exit(context);
+        context = null;
+    }
+
 }

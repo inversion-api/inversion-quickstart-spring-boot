@@ -1,8 +1,7 @@
 
 //-- Uncomment the following line if you want to include the core
 //-- inversion subprojects as local projects instead of maven dependencies
-//--
-//-- IMPORTANT the supplied Dockerfile will not work with these local proejct dependencies
+//-- IMPORTANT the supplied Dockerfile will not work with these local project dependencies
 //-- so make sure "includeBuild '../inversion-engine'" is commented OUT when using Docker.
 
 //includeBuild '../inversion-engine'
