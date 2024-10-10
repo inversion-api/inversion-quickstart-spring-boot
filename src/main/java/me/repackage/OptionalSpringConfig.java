@@ -16,7 +16,7 @@
  */
 package me.repackage;
 
-import org.springframework.context.annotation.Configuration;
+//import org.springframework.context.annotation.Configuration;
 
 /**
  * If you want to have Spring do the bean wiring for your api instead of having Inversion do the wiring
@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Configuration;
  * <p>
  * This file is not meant to be a master class in great Spring design but this should get you started.
  */
-@Configuration
+//@Configuration
 public class OptionalSpringConfig {
 //    @Bean
 //    public static Api buildMockApi1() {

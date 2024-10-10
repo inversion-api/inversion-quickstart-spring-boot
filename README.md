@@ -1,7 +1,5 @@
 # Inversion Cloud API Engine - Spring Boot Quick Start Guide
 
-[![](https://travis-ci.org/inversion-api/inversion-quickstart-spring-boot.svg?branch=master)](https://travis-ci.org/inversion-api/inversion-quickstart-spring-boot)
-
 Inversion is the fastest way to deliver full featured and secure REST APIs.
 
 See https://inversion.io and https://github.com/inversion-api/inversion-engine for more extended documentation, guides, 

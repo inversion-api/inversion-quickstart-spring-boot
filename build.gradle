@@ -1,28 +1,28 @@
 plugins {
-    id "org.springframework.boot" version "2.2.2.RELEASE"
+    id("org.springframework.boot") version "3.3.4"
 }
 
 allprojects
         {
             apply plugin: 'java-library'
 
-            sourceCompatibility = 1.8
-            targetCompatibility = 1.8
+            java {
+                toolchain {
+                    languageVersion = JavaLanguageVersion.of(17)
+                }
+            }
 
             repositories {
-                jcenter()
                 mavenCentral()
-                maven { url 'https://oss.jfrog.org/artifactory/oss-snapshot-local' }
-                maven { url 'https://jitpack.io' }
             }
         }
 
 
 subprojects
         {
-            dependencies {
-                testCompile 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
-            }
+//            dependencies {
+//                testCompile 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
+//            }
 
             task sourcesJar(type: Jar) {
                 from sourceSets.main.allJava
@@ -39,10 +39,6 @@ subprojects
 
 dependencies {
 
-
-    //-- use these dependencies to pull the inversion build assets from Maven
-    //-- make sure to set ${inversionVersion} to your desired version in gradle.properties
-    //--
     //-- If you want to checkout the inversion-engine core project to do simultaneous
     //-- development on any of the core sub-projects and your own project, you
     //-- can use local project dependencies instead of maven dependencies.
@@ -51,15 +47,11 @@ dependencies {
     //-- settings.gradle file and gradle will use the local project.
     //-- IMPORTANT the supplied Dockerfile will not work with these local project dependencies
     //-- so make sure "includeBuild '../inversion-engine'" is commented OUT when using Docker.
-    compile "io.inversion:inversion-api:${inversionVersion}"
-    compile "io.inversion:inversion-jdbc:${inversionVersion}"
-    compile "io.inversion:inversion-spring-boot:${inversionVersion}"
 
-    //-- Alternatively, you can use jitpack to import dependencies directly from github.
-    //-- You can use these dependencies instead of the above dependencies to stay on the cutting edge.
-    //compile 'com.github.inversion-api.inversion-engine:inversion-api:master-SNAPSHOT'
-    //compile 'com.github.inversion-api.inversion-engine:inversion-jdbc:master-SNAPSHOT'
-    //compile 'com.github.inversion-api.inversion-engine:inversion-spring-boot:master-SNAPSHOT'
+     api "io.inversion:inversion-core-utils:${inversionVersion}"
+     api "io.inversion:inversion-module-jdbc:${inversionVersion}"
+     api "io.inversion:inversion-module-spring-boot:${inversionVersion}"
+     api group: "com.h2database", name: "h2", version: "${h2Version}"
 
 }
 
