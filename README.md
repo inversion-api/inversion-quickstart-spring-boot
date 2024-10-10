@@ -15,7 +15,7 @@ tutorials, and of course all the code.
 
 ## Prerequisites
 
-1. Inversion runs on all major operating systems and requires only a Java JDK or JRE version 8 or higher to be installed.
+1. Inversion runs on all major operating systems and requires only a Java JDK or JRE version 17 or higher to be installed.
 1. OR, if you don't have Java on your system you can also run Inversion on Docker with the supplied dockerfile if you prefer.
 1. To checkout this code you will also need git installed.
 
@@ -37,7 +37,7 @@ that connects to your data.
     cd inversion-quickstart-spring-boot
     ```
 
-1. If you have Java 8+ installed, you can also build and run the demo via Gradle: 
+1. If you have Java 17+ installed, you can also build and run the demo via Gradle: 
     ```shell script
     ./gradlew build
     ./gradlew demo
